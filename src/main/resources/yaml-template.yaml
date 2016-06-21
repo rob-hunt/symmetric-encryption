@@ -1,0 +1,33 @@
+# Symmetric Encryption YAML configuration
+<% result = [] %>
+---
+development: &development_defaults
+  encryption_key: 1234567890ABCDEF1234567890ABCDEF
+  iv: 1234567890ABCDEF
+  cipher_name: AES/CBC/PKCS5Padding
+  encoding: base64strict
+
+test:
+  <<: *development_defaults
+
+production:
+  private_rsa_key: |
+<%= rsaKeyProduction.eachLine { result << "    ${it}\n" }; result.join('') %>
+  cipher:
+    -
+      key_filename: <%= keyFilePath %><%= keyFilenameProduction %>
+      iv_filename: <%= keyFilePath %><%= ivFilenameProduction %>
+      cipher_name: <%= cipherName %>
+      encoding: <%= encoding %>
+      version: <%= version %>
+<% result = [] %>
+staging:
+  private_rsa_key: |
+<%= rsaKeyStaging.eachLine { result << "    ${it}\n" }; result.join('') %>
+  cipher:
+    -
+      key_filename: <%= keyFilePath %><%= keyFilenameStaging %>
+      iv_filename: <%= keyFilePath %><%= ivFilenameStaging %>
+      cipher_name: <%= cipherName %>
+      encoding: <%= encoding %>
+      version: <%= version %>

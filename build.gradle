@@ -1,0 +1,36 @@
+plugins {
+    id 'groovy'
+    id 'java'
+    id 'codenarc'
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+group            = 'org.encryption'
+archivesBaseName = 'SymmetricEncryption'
+version          = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'http://clojars.org/repo' }
+}
+
+dependencies {
+    compile 'commons-cli:commons-cli:1.3.1'
+    compile 'org.yaml:snakeyaml:1.17'
+    compile 'org.codehaus.groovy:groovy-all:2.4.4'
+    compile 'org.bouncycastle:bcpkix-jdk15on:1.54'
+
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile 'junit:junit:4.12'
+}
+
+codenarc {
+    configFile = new File('config/codenarc/codenarc.groovy')
+}
+
+sourceSets {
+    main {
+        java { srcDirs = [] }
+        groovy { srcDirs = ['src/main/groovy', 'src/main/java'] }
+    }
+}

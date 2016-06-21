@@ -1,0 +1,13 @@
+#Project
+.gradle
+target
+build
+workspace.xml
+tasks.xml
+.idea/
+symmetric-encryption.iml
+symmetric-encryption.json
+symmetric-encryption.yaml
+symmetric-encryption.xml
+*.iv
+*.key

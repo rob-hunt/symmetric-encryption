@@ -1,0 +1,37 @@
+{
+  "development": {
+    "encryption_key": "1234567890ABCDEF1234567890ABCDEF",
+    "iv": "1234567890ABCDEF",
+    "cipher_name": "AES/CBC/PKCS5Padding",
+    "encoding": "base64strict"
+  },
+
+  "test": {
+    "encryption_key": "1234567890ABCDEF1234567890ABCDEF",
+    "iv": "1234567890ABCDEF",
+    "cipher_name": "AES/CBC/PKCS5Padding",
+    "encoding": "base64strict"
+  },
+
+  "production": {
+    "private_rsa_key": "<%= rsaKeyProduction.split("\n").join("\\n") %>",
+    "cipher": {
+      "key_filename": "<%= keyFilePath %><%= keyFilenameProduction %>",
+      "iv_filename": "<%= keyFilePath %><%= ivFilenameProduction %>",
+      "cipher_name": "<%= cipherName %>",
+      "encoding": "<%= encoding %>",
+      "version": "<%= version %>"
+    }
+  },
+
+  "staging": {
+    "private_rsa_key": "<%= rsaKeyStaging.split("\n").join("\\n") %>",
+    "cipher": {
+      "key_filename": "<%= keyFilePath %><%= keyFilenameStaging %>",
+      "iv_filename": "<%= keyFilePath %><%= ivFilenameStaging %>",
+      "cipher_name": "<%= cipherName %>",
+      "encoding": "<%= encoding %>",
+      "version": "<%= version %>"
+    }
+  }
+}

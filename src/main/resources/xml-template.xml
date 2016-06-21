@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <development>
+        <encryption_key>1234567890ABCDEF1234567890ABCDEF</encryption_key>
+        <iv>1234567890ABCDEF</iv>
+        <cipher_name>AES/CBC/PKCS5Padding</cipher_name>
+        <encoding>base64strict</encoding>
+    </development>
+
+    <test>
+        <encryption_key>1234567890ABCDEF1234567890ABCDEF</encryption_key>
+        <iv>1234567890ABCDEF</iv>
+        <cipher>AES/CBC/PKCS5Padding</cipher>
+        <encoding>base64strict</encoding>
+    </test>
+<% result = [] %>
+    <production>
+        <private_rsa_key>
+<%= rsaKeyProduction.eachLine { result << "            ${it}" }; result.join('\n') %>
+        </private_rsa_key>
+        <cipher>
+            <key_filename><%= keyFilePath %><%= keyFilenameProduction %></key_filename>
+            <iv_filename><%= keyFilePath %><%= ivFilenameProduction %></iv_filename>
+            <cipher_name><%= cipherName %></cipher_name>
+            <encoding><%= encoding %></encoding>
+            <version><%= version %></version>
+        </cipher>
+    </production>
+<% result = [] %>
+    <staging>
+        <private_rsa_key>
+<%= rsaKeyStaging.eachLine { result << "            ${it}" }; result.join('\n') %>
+        </private_rsa_key>
+        <cipher>
+            <key_filename><%= keyFilePath %><%= keyFilenameStaging %></key_filename>
+            <iv_filename><%= keyFilePath %><%= ivFilenameStaging %></iv_filename>
+            <cipher_name><%= cipherName %></cipher_name>
+            <encoding><%= encoding %></encoding>
+            <version><%= version %></version>
+        </cipher>
+    </staging>
+</root>
