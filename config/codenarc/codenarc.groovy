@@ -99,7 +99,7 @@ ruleset {
     // rulesets/design.xml
     AbstractClassWithPublicConstructor
     AbstractClassWithoutAbstractMethod
-    AssignmentToStaticFieldFromInstanceMethod
+//    AssignmentToStaticFieldFromInstanceMethod // not present in v.0.24.1
     BooleanMethodReturnsNull
     BuilderMethodWithSideEffects
     CloneableWithoutClone
@@ -123,13 +123,13 @@ ruleset {
     // rulesets/dry.xml
     DuplicateListLiteral
     DuplicateMapLiteral
-    DuplicateNumberLiteral
-    DuplicateStringLiteral
+//    DuplicateNumberLiteral
+//    DuplicateStringLiteral
 
     // rulesets/enhanced.xml
-    CloneWithoutCloneable
-    JUnitAssertEqualsConstantActualValue
-    UnsafeImplementationAsMap
+//    CloneWithoutCloneable
+//    JUnitAssertEqualsConstantActualValue
+//    UnsafeImplementationAsMap
 
     // rulesets/exceptions.xml
     CatchArrayIndexOutOfBoundsException
@@ -193,19 +193,6 @@ ruleset {
     RequiredString
     StatelessClass
 
-    // rulesets/grails.xml
-    GrailsDomainHasEquals
-    GrailsDomainHasToString
-    GrailsDomainReservedSqlKeywordName
-    GrailsDomainWithServiceReference
-    GrailsDuplicateConstraint
-    GrailsDuplicateMapping
-    GrailsMassAssignment
-    GrailsPublicControllerMethod
-    GrailsServletContextReference
-    GrailsSessionReference   // DEPRECATED
-    GrailsStatelessService
-
     // rulesets/groovyism.xml
     AssignCollectionSort
     AssignCollectionUnique
@@ -249,12 +236,6 @@ ruleset {
     UnnecessaryGroovyImport
     UnusedImport
 
-    // rulesets/jdbc.xml
-    DirectConnectionManagement
-    JdbcConnectionReference
-    JdbcResultSetReference
-    JdbcStatementReference
-
     // rulesets/junit.xml
     ChainedTest
     CoupledTestCase
@@ -264,6 +245,7 @@ ruleset {
     JUnitLostTest
     JUnitPublicField
     JUnitPublicNonTestMethod
+    JUnitPublicProperty
     JUnitSetUpCallsSuper
     JUnitStyleAssertions
     JUnitTearDownCallsSuper
@@ -292,12 +274,12 @@ ruleset {
     AbstractClassName
     ClassName
     ClassNameSameAsFilename
-    ClassNameSameAsSuperclass
+//    ClassNameSameAsSuperclass // not present in v.0.24.1
+//    InterfaceNameSameAsSuperInterface // not present in v.0.24.1
     ConfusingMethodName
     FactoryMethodName
     FieldName
     InterfaceName
-    InterfaceNameSameAsSuperInterface
     MethodName
     ObjectOverrideMisspelledMethodName
     PackageName
@@ -309,7 +291,6 @@ ruleset {
     // rulesets/security.xml
     FileCreateTempFile
     InsecureRandom
-//    JavaIoPackageAccess
     NonFinalPublicField
     NonFinalSubclassOfSensitiveInterface
     ObjectFinalize
@@ -324,17 +305,19 @@ ruleset {
     SerializableClassMustDefineSerialVersionUID
 
     // rulesets/size.xml
-    AbcComplexity   // DEPRECATED: Use the AbcMetric rule instead. Requires the GMetrics jar
-    AbcMetric   // Requires the GMetrics jar
+//    AbcComplexity   // DEPRECATED: Use the AbcMetric rule instead. Requires the GMetrics jar
+//    AbcMetric   // Requires the GMetrics jar
+//    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
+//    CyclomaticComplexity   // Requires the GMetrics jar
     ClassSize
-    CrapMetric   // Requires the GMetrics jar and a Cobertura coverage file
-    CyclomaticComplexity   // Requires the GMetrics jar
     MethodCount {
         maxMethods = 55
     }
     MethodSize
     NestedBlockDepth
-    ParameterCount
+    ParameterCount {
+        maxParameters = 8
+    }
 
     // rulesets/unnecessary.xml
     AddEmptyString

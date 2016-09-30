@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.encryption
 
 /**
@@ -26,7 +25,9 @@ class CliParser {
     @Delegate private final CliBuilder cliBuilder
 
     private CliParser() {
-        this.cliBuilder = new CliBuilder(usage: 'java org.esp.SymmetricEncryption [OPTIONS]', header: 'Options:')
+        this.cliBuilder = new CliBuilder(
+                usage: 'java -cp SymmetricEncryption-1.0-SNAPSHOT-all.jar org.encryption.SymmetricEncryption [OPTIONS]',
+                header: 'Options:')
         cliBuilder.help('Print this message.')
         cliBuilder.env(args: 1, argName: 'environment', 'Generate keys for given environment.')
         cliBuilder.config(args: 1, argName: 'type', 'Generate the symmetric encryption configuration. ' +
