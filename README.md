@@ -15,9 +15,7 @@ In addition we have configuration files that have tokens, access ids, urls etc e
 
 #### Current features
 
-Currently the library can generate configuration files in xml, json and yaml. RSA keys, encryption keys and
-configuration files are compatible with the rocket job gem mentioned in inspiration. Note the rocket job gem only supports
-yaml for configuration.
+Currently the library can generate configuration files in xml, json and yaml. RSA keys and encryption keys. 
 
 #### Future
 
@@ -80,5 +78,5 @@ SymmetricEncryption.load('production')
 ```groovy
 SymmetricEncryption.encrypt("Hello, World!") // -> V1dX8YgnU7CbJEUjejdxTA==
 
-SymmetricEncryption.decrypt("") // -> Hello, World!
+SymmetricEncryption.decrypt("V1dX8YgnU7CbJEUjejdxTA==") // -> Hello, World!
 ```
