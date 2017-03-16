@@ -17,7 +17,6 @@ package org.encryption
 
 import groovy.json.JsonSlurper
 import groovy.util.slurpersupport.GPathResult
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.encryption.exceptions.SymmetricEncryptionException
 import org.encryption.generators.ConfigGenerator
 import org.encryption.generators.KeyPairGenerator
@@ -26,7 +25,6 @@ import org.yaml.snakeyaml.Yaml
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import java.security.Security
 
 /**
  * API into decrypting and encrypting.
@@ -43,8 +41,6 @@ class SymmetricEncryption {
      * @param args
      */
     static void main(String[] args) throws Exception {
-        loadBouncy()
-
         def options = CliParser.instance.parse(args)
 
         if (options.getProperty('env')) {
@@ -57,6 +53,12 @@ class SymmetricEncryption {
         } else if (options.getProperty('config')) {
             new ConfigGenerator(options.config as String).generateConfiguration()
             println("Generated new configuration file of type ${options.config}.")
+        } else if (options.getProperty('encrypt')) {
+            load(options.encrypts[0] as String)
+            println("Encrypted value: ${encrypt(options.encrypts[1] as String)}")
+        } else if (options.getProperty('decrypt')) {
+            load(options.decrypts[0] as String)
+            println("Decrypted value: ${decrypt(options.decrypts[1] as String)}")
         } else {
             CliParser.instance.usage() // Default display help
         }
@@ -92,8 +94,6 @@ class SymmetricEncryption {
      * @param environment Environment we are using.
      */
     private static void init(Map<String, String> configMap, String environment) {
-        loadBouncy()
-
         def config = configMap[environment]
 
         if (environment == 'development' || environment == 'test') {
@@ -159,8 +159,7 @@ class SymmetricEncryption {
     }
 
     private static boolean filePresent(String filename) {
-        def file = loadFile(filename)
-        file != null && file.isFile()
+        loadFile(filename) != null
     }
 
     private static Map<String, String> loadJson() {
@@ -172,7 +171,7 @@ class SymmetricEncryption {
     }
 
     private static Map<String, String> loadYaml() {
-        (Map) new Yaml().load(loadFile("${ConfigGenerator.BASE_FILE_NAME}.yaml").toURI().toURL().openStream())
+        (Map) new Yaml().load(loadFile("${ConfigGenerator.BASE_FILE_NAME}.yaml"))
     }
 
     // Convert XML nodes into a map
@@ -182,18 +181,8 @@ class SymmetricEncryption {
         }
     }
 
-    private static File loadFile(String filename) {
-        URL resource = SymmetricEncryption.classLoader.getResource(filename)
-
-        if (resource != null) {
-            return new File(resource.path)
-        }
-
-        null
-    }
-
-    private static void loadBouncy() {
-        Security.addProvider(new BouncyCastleProvider())
+    private static InputStream loadFile(String filename) {
+        SymmetricEncryption.classLoader.getResourceAsStream(filename)
     }
 
     private static void checkInitalized() {

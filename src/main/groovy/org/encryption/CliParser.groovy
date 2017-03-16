@@ -21,6 +21,7 @@ package org.encryption
  * @author Andrew Medeiros
  */
 @Singleton(strict = false)
+@SuppressWarnings('DuplicateMapLiteral')
 class CliParser {
     @Delegate private final CliBuilder cliBuilder
 
@@ -29,6 +30,10 @@ class CliParser {
                 usage: 'java -cp SymmetricEncryption-1.0-SNAPSHOT-all.jar org.encryption.SymmetricEncryption [OPTIONS]',
                 header: 'Options:')
         cliBuilder.help('Print this message.')
+        cliBuilder.encrypt(args: 2, valueSeparator: '=',
+                           argName: 'environment=value', 'Encrypt value for specific environment.')
+        cliBuilder.decrypt(args: 2, valueSeparator: '=',
+                           argName: 'environment=value', 'Decrypt value for specific environment.')
         cliBuilder.env(args: 1, argName: 'environment', 'Generate keys for given environment.')
         cliBuilder.config(args: 1, argName: 'type', 'Generate the symmetric encryption configuration. ' +
                 'Type: json, xml, yaml. Note: Running this will generate a new configuration file every time!')

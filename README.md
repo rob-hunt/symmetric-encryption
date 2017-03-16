@@ -1,7 +1,7 @@
 ### Symmetric Encryption for the JVM
 =======
 
-##### Status: Functional but needs some tests and some refactoring. Needs better groovy doc comments. Feel free to make merge requests. USE AT YOUR OWN RISK!
+##### Status: Functional but needs some tests and some refactoring. Needs better groovy doc comments. Feel free to make merge requests.
 -----------
 
 #### Inspiration
@@ -15,7 +15,17 @@ In addition we have configuration files that have tokens, access ids, urls etc e
 
 #### Current features
 
-Currently the library can generate configuration files in xml, json and yaml. RSA keys and encryption keys. 
+Currently the library can generate configuration files in xml, json and yaml. RSA keys and encryption keys.
+ 
+#### Installation
+
+1. Download the JCE jars (http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
+2. Download org.bouncycastle:bcpkix-jdk15on:1.54 jar (https://search.maven.org/remotecontent?filepath=org/bouncycastle/bcpkix-jdk15on/1.54/bcpkix-jdk15on-1.54.jar)
+3. Download org.bouncycastle:bcprov-jdk15on:1.54 jar (https://search.maven.org/remotecontent?filepath=org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.jar)
+4. Place the bouncy castle jars at `$JAVA_HOME/jre/lib/ext/`
+5. Update the security policy `$JAVA_HOME/jre/lib/security/java.security` to include `security.provider.N=org.bouncycastle.jce.provider.BouncyCastleProvider`
+6. Build Symmetric Encryption library jar in the building steps below. Add the jar to your project.
+7. Enjoy!
 
 #### Future
 
@@ -52,11 +62,14 @@ java -cp build/libs/SymmetricEncryption-1.0-SNAPSHOT-all.jar org.encryption.Symm
 usage: java -cp SymmetricEncryption-1.0-SNAPSHOT-all.jar
             org.encryption.SymmetricEncryption [OPTIONS]
 Options:
- -config <type>       Generate the symmetric encryption configuration.
-                      Type: json, xml, yaml. Note: Running this will
-                      generate a new configuration file every time!
- -env <environment>   Generate keys for given environment.
- -help                Print this message.
+ -config <type>                 Generate the symmetric encryption
+                                configuration. Type: json, xml, yaml.
+                                Note: Running this will generate a new
+                                configuration file every time!
+ -decrypt <environment=value>   Decrypt value for specific environment.
+ -encrypt <environment=value>   Encrypt value for specific environment.
+ -env <environment>             Generate keys for given environment.
+ -help
 ```
 
 
