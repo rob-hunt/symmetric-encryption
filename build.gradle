@@ -40,5 +40,6 @@ shadowJar {
     dependencies {
         exclude(dependency('org.bouncycastle:bcpkix-jdk15on:1.54'))
         exclude(dependency('org.bouncycastle:bcprov-jdk15on:1.54'))
+        exclude(dependency('org.codehaus.groovy:groovy-all:2.4.9'))
     }
 }

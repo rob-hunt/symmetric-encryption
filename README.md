@@ -22,10 +22,11 @@ Currently the library can generate configuration files in xml, json and yaml. RS
 1. Download the JCE jars (http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html)
 2. Download org.bouncycastle:bcpkix-jdk15on:1.54 jar (https://search.maven.org/remotecontent?filepath=org/bouncycastle/bcpkix-jdk15on/1.54/bcpkix-jdk15on-1.54.jar)
 3. Download org.bouncycastle:bcprov-jdk15on:1.54 jar (https://search.maven.org/remotecontent?filepath=org/bouncycastle/bcprov-jdk15on/1.54/bcprov-jdk15on-1.54.jar)
-4. Place the bouncy castle jars at `$JAVA_HOME/jre/lib/ext/`
-5. Update the security policy `$JAVA_HOME/jre/lib/security/java.security` to include `security.provider.N=org.bouncycastle.jce.provider.BouncyCastleProvider`
-6. Build Symmetric Encryption library jar in the building steps below. Add the jar to your project.
-7. Enjoy!
+4. Make sure to have Groovy installed it is not included in the shadowjar!
+5. Place the bouncy castle jars at `$JAVA_HOME/jre/lib/ext/`
+6. Update the security policy `$JAVA_HOME/jre/lib/security/java.security` to include `security.provider.N=org.bouncycastle.jce.provider.BouncyCastleProvider`
+7. Build Symmetric Encryption library jar in the building steps below. Add the jar to your project.
+8. Enjoy!
 
 #### Future
 
