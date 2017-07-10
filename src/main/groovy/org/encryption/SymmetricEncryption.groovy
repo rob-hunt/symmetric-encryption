@@ -176,7 +176,7 @@ class SymmetricEncryption {
 
     private static boolean isYaml(File file = null) {
         if (file) {
-            return file.absolutePath.endsWith('.yaml')
+            return file.absolutePath.endsWith('.yaml') || file.absolutePath.endsWith('.yml')
         }
 
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.yaml")
