@@ -160,7 +160,7 @@ class SymmetricEncryption {
 
     private static boolean isJson(File file = null) {
         if (file) {
-            return file.toPath().endsWith('.json')
+            return file.absolutePath.endsWith('.json')
         }
 
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.json")
@@ -176,7 +176,7 @@ class SymmetricEncryption {
 
     private static boolean isYaml(File file = null) {
         if (file) {
-            return file.toPath().endsWith('.yaml')
+            return file.absolutePath.endsWith('.yaml')
         }
 
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.yaml")

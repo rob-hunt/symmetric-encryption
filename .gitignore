@@ -11,3 +11,4 @@ symmetric-encryption.xml
 *.key
 .DS_STORE
 symmetric-encryption.iml
+Main.groovy
