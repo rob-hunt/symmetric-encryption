@@ -86,6 +86,11 @@ SymmetricEncryption.load('development')
 SymmetricEncryption.load('production')
 ```
 
+```groovy
+// Load with an optional path to the file. Must end in one of .json, .yaml, .xml
+SymmetricEncryption.load('development', '/path/to/my/file/symmetric-encryption.xml')
+```
+
 
 #### Encrypting/Decrypting
 

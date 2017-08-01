@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Andrew Medeiros.
+ * Copyright 2016-2017 Andrew Medeiros.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,23 +66,35 @@ class SymmetricEncryption {
 
     /**
      * Load Symmetric Encryption for a specific environment
+     * Include an optional filename to load.
      * @param environment Environment we are using.
+     * @param fileName Optional Symmetric Encryption file.
      */
-    static void load(String environment) {
-        init(readConfig(), environment)
+    static void load(String environment, String fileName = null) {
+        if (fileName) {
+            File file = new File(fileName)
+            if (file.exists()) {
+                init(readConfig(file), environment)
+            } else {
+                throw new SymmetricEncryptionException("File ${fileName} does not exist.")
+            }
+        } else {
+            init(readConfig(), environment)
+        }
     }
 
     /**
-     * Read the configuration file.
-     * @return Configuration map.
+     * Read the encryption file. Passing an optional fileName to load.
+     * @param filename Optional filename to load.
+     * @return
      */
-    private static Map<String, String> readConfig() {
-        if (isJson()) {
-            return loadJson()
-        } else if (isXml()) {
-            return loadXml()
-        } else if (isYaml()) {
-            return loadYaml()
+    private static Map<String, String> readConfig(File filename = null) {
+        if (isJson(filename)) {
+            return loadJson(filename)
+        } else if (isXml(filename)) {
+            return loadXml(filename)
+        } else if (isYaml(filename)) {
+            return loadYaml(filename)
         }
 
         throw new SymmetricEncryptionException('Missing Symmetric Encryption configuration file.')
@@ -146,15 +158,27 @@ class SymmetricEncryption {
         pem.replace('  ', '')
     }
 
-    private static boolean isJson() {
+    private static boolean isJson(File file = null) {
+        if (file) {
+            return file.absolutePath.endsWith('.json')
+        }
+
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.json")
     }
 
-    private static boolean isXml() {
+    private static boolean isXml(File file = null) {
+        if (file) {
+            return file.absolutePath.endsWith('.xml')
+        }
+
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.xml")
     }
 
-    private static boolean isYaml() {
+    private static boolean isYaml(File file = null) {
+        if (file) {
+            return file.absolutePath.endsWith('.yaml') || file.absolutePath.endsWith('.yml')
+        }
+
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.yaml")
     }
 
@@ -162,15 +186,27 @@ class SymmetricEncryption {
         loadFile(filename) != null
     }
 
-    private static Map<String, String> loadJson() {
+    private static Map<String, String> loadJson(File file = null) {
+        if (file) {
+            return (Map) new JsonSlurper().parse(file.newInputStream())
+        }
+
         (Map) new JsonSlurper().parse(loadFile("${ConfigGenerator.BASE_FILE_NAME}.json"))
     }
 
-    private static Map<String, String> loadXml() {
+    private static Map<String, String> loadXml(File file = null) {
+        if (file) {
+            return nodeToMap(new XmlSlurper().parse(file.newInputStream()))
+        }
+
         nodeToMap(new XmlSlurper().parse(loadFile("${ConfigGenerator.BASE_FILE_NAME}.xml")))
     }
 
-    private static Map<String, String> loadYaml() {
+    private static Map<String, String> loadYaml(File file = null) {
+        if (file) {
+            return (Map) new Yaml().load(file.newInputStream())
+        }
+
         (Map) new Yaml().load(loadFile("${ConfigGenerator.BASE_FILE_NAME}.yaml"))
     }
 
