@@ -114,7 +114,7 @@ class SymmetricEncryption {
             Cipher cipher        = Cipher.getInstance(cipherName, PROVIDER)
             aesEncryption        = new AesEncryption(encryptionKey, cipher)
         } else {
-            def cipherConfig     = config['cipher']
+            def cipherConfig     = config['ciphers']
             String ivFile        = cipherConfig['iv_filename']
             String keyFile       = cipherConfig['key_filename']
             String cipherName    = cipherConfig['cipher_name']
