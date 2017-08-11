@@ -12,3 +12,6 @@ symmetric-encryption.xml
 .DS_STORE
 symmetric-encryption.iml
 Main.groovy
+.classpath
+.project
+.settings/

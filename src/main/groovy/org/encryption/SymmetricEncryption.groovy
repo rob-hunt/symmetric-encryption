@@ -66,20 +66,25 @@ class SymmetricEncryption {
 
     /**
      * Load Symmetric Encryption for a specific environment
-     * Include an optional filename to load.
+     * @param environment Environment we are using.
+     */
+    static void load(String environment) {
+        init(readConfig(), environment)
+    }
+
+    /**
+     * Load Symmetric Encryption for a specific environment
+     * Include a filename to load.
      * @param environment Environment we are using.
      * @param fileName Optional Symmetric Encryption file.
      */
-    static void load(String environment, String fileName = null) {
-        if (fileName) {
-            File file = new File(fileName)
-            if (file.exists()) {
-                init(readConfig(file), environment)
-            } else {
-                throw new SymmetricEncryptionException("File ${fileName} does not exist.")
-            }
+    static void load(String environment, String filename) {
+        File file = new File(fileName)
+
+        if (file.exists()) {
+            init(readConfig(file), environment)
         } else {
-            init(readConfig(), environment)
+            throw new SymmetricEncryptionException("File ${fileName} does not exist.")
         }
     }
 
