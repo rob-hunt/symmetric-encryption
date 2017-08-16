@@ -7,7 +7,7 @@ plugins {
 
 group            = 'org.encryption'
 archivesBaseName = 'SymmetricEncryption'
-version          = '1.0.1-SNAPSHOT'
+version          = '1.0.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -40,6 +40,5 @@ shadowJar {
     dependencies {
         exclude(dependency('org.bouncycastle:bcpkix-jdk15on:1.54'))
         exclude(dependency('org.bouncycastle:bcprov-jdk15on:1.54'))
-        exclude(dependency('org.codehaus.groovy:groovy-all:2.4.9'))
     }
 }

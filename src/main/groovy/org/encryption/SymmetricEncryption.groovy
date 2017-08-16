@@ -78,7 +78,7 @@ class SymmetricEncryption {
      * @param environment Environment we are using.
      * @param fileName Optional Symmetric Encryption file.
      */
-    static void load(String environment, String filename) {
+    static void load(String environment, String fileName) {
         File file = new File(fileName)
 
         if (file.exists()) {
@@ -89,11 +89,27 @@ class SymmetricEncryption {
     }
 
     /**
+     * Read the encryption file from resources.
+     * @return
+     */
+    private static Map<String, String> readConfig() {
+        if (isJson()) {
+            return loadJson()
+        } else if (isXml()) {
+            return loadXml()
+        } else if (isYaml()) {
+            return loadYaml()
+        }
+        throw new SymmetricEncryptionException('Missing Symmetric Encryption configuration file.')
+    }
+
+
+    /**
      * Read the encryption file. Passing an optional fileName to load.
      * @param filename Optional filename to load.
      * @return
      */
-    private static Map<String, String> readConfig(File filename = null) {
+    private static Map<String, String> readConfig(File filename) {
         if (isJson(filename)) {
             return loadJson(filename)
         } else if (isXml(filename)) {
@@ -163,7 +179,12 @@ class SymmetricEncryption {
         pem.replace('  ', '')
     }
 
-    private static boolean isJson(File file = null) {
+    private static boolean isJson() {
+        String filename = "${ConfigGenerator.BASE_FILE_NAME}.json"
+        return filePresent(filename)
+    }
+
+    private static boolean isJson(File file) {
         if (file) {
             return file.absolutePath.endsWith('.json')
         }
@@ -171,7 +192,12 @@ class SymmetricEncryption {
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.json")
     }
 
-    private static boolean isXml(File file = null) {
+    private static boolean isXml() {
+        String filename = "${ConfigGenerator.BASE_FILE_NAME}.xml"
+        return filePresent(filename)
+    }
+
+    private static boolean isXml(File file) {
         if (file) {
             return file.absolutePath.endsWith('.xml')
         }
@@ -179,7 +205,12 @@ class SymmetricEncryption {
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.xml")
     }
 
-    private static boolean isYaml(File file = null) {
+    private static boolean isYaml() {
+        String filename = "${ConfigGenerator.BASE_FILE_NAME}.yaml"
+        filePresent(filename)
+    }
+
+    private static boolean isYaml(File file) {
         if (file) {
             return file.absolutePath.endsWith('.yaml') || file.absolutePath.endsWith('.yml')
         }
@@ -187,32 +218,44 @@ class SymmetricEncryption {
         filePresent("${ConfigGenerator.BASE_FILE_NAME}.yaml")
     }
 
-    private static boolean filePresent(String filename) {
+    private static boolean filePresent(java.lang.String filename) {
         loadFile(filename) != null
     }
 
-    private static Map<String, String> loadJson(File file = null) {
-        if (file) {
-            return (Map) new JsonSlurper().parse(file.newInputStream())
-        }
-
+    private static Map<String, String> loadJson() {
         (Map) new JsonSlurper().parse(loadFile("${ConfigGenerator.BASE_FILE_NAME}.json"))
     }
 
-    private static Map<String, String> loadXml(File file = null) {
+    private static Map<String, String> loadJson(File file) {
         if (file) {
-            return nodeToMap(new XmlSlurper().parse(file.newInputStream()))
+            return (Map) new JsonSlurper().parse(file.newInputStream())
+        } else {
+            loadJson()
         }
+    }
 
+    private static Map<String, String> loadXml() {
         nodeToMap(new XmlSlurper().parse(loadFile("${ConfigGenerator.BASE_FILE_NAME}.xml")))
     }
 
-    private static Map<String, String> loadYaml(File file = null) {
+    private static Map<String, String> loadXml(File file) {
+        if (file) {
+            return nodeToMap(new XmlSlurper().parse(file.newInputStream()))
+        } else {
+            loadXml()
+        }
+    }
+
+    private static Map<String, String> loadYaml() {
+        (Map) new Yaml().load(loadFile("${ConfigGenerator.BASE_FILE_NAME}.yaml"))
+    }
+
+    private static Map<String, String> loadYaml(File file) {
         if (file) {
             return (Map) new Yaml().load(file.newInputStream())
+        } else {
+            loadYaml()
         }
-
-        (Map) new Yaml().load(loadFile("${ConfigGenerator.BASE_FILE_NAME}.yaml"))
     }
 
     // Convert XML nodes into a map
